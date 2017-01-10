@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>kedde.umbraco.testdlls</id>
+    <version>7.5.7</version>
+    <authors>kedde</authors>
+    <owners>kedde</owners>
+    <licenseUrl>https://github.com/kedde/UmbracoBuild/raw/master/doc/license.txt</licenseUrl>
+    <projectUrl>https://github.com/kedde/UmbracoBuild</projectUrl>
+    <iconUrl>https://github.com/kedde/UmbracoBuild/raw/master/doc/tux.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+            The Umbraco.Tests.dll and pdb files, built from the UmbracoCMS source code.
+            Theres a daily check for a new version(Umbraco.Version) using appveyors cron job
+    </description>
+    <releaseNotes>
+    </releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>UmbracoCMS Umbraco Unit Test UnitTest</tags>
+    <dependencies>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\Umbraco-Cms\src\Umbraco.Tests\bin\Debug\Umbraco.Tests.dll" target="lib" />
+    <file src="..\Umbraco-CMS\src\Umbraco.Tests\bin\Debug\Umbraco.Tests.pdb" target="lib" />
+  </files>
+</package>
