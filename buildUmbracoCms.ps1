@@ -1,6 +1,5 @@
 # choco install nuget.commandline?
 
-
 $UmbracoCms="Umbraco-Cms"
 if(!(Test-Path -Path $UmbracoCms)){
     git clone https://github.com/umbraco/Umbraco-CMS.git
@@ -32,7 +31,8 @@ $versionNode = $doc.SelectSingleNode("//package/metadata/version")
 $oldVersion = $versionNode.InnerText
 
 # if version changed
-if ($oldVersion -ne $umbracoVersion)
+$debug = $true
+if ($oldVersion -ne $umbracoVersion -Or $debug)
 {
     # update version in nuspec
     Write-Host "changing version " $versionNode.InnerText " to " $umbracoVersion
