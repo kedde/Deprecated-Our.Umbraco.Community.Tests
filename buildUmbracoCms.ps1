@@ -31,7 +31,7 @@ $versionNode = $doc.SelectSingleNode("//package/metadata/version")
 $oldVersion = $versionNode.InnerText
 
 # if version changed
-$debug = $true
+$debug = $false
 if ($oldVersion -ne $umbracoVersion -Or $debug)
 {
     # update version in nuspec
