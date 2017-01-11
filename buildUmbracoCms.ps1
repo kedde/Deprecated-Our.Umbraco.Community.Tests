@@ -68,11 +68,11 @@ if ($oldVersion -ne $umbracoVersion -Or $debug)
 
     # upload package
     # make sure the nuget setApiKey Your-API-Key has been executed or set in the environment
-    $apikey = $env:nugetApiKey
-    nuget.exe setApiKey $apikey -Source https://www.nuget.org/api/v2/package
-    nuget push .\kedde.Umbraco.TestsDlls\kedde.umbraco.testdlls.7.5.7.nupkg -source https://www.nuget.org/api/v2/package
+    #$apikey = $env:nugetApiKey
+    # nuget.exe setApiKey $apikey -Source https://www.nuget.org/api/v2/package
+    #nuget push .\kedde.Umbraco.TestsDlls\kedde.umbraco.testdlls.7.5.7.nupkg -source https://www.nuget.org/api/v2/package
 
     # push update version back
-    git commit -am "update version to $($umbracoVersion)"
-    git push 
+    #git commit -am "update version to $($umbracoVersion)"
+    #git push 
 }

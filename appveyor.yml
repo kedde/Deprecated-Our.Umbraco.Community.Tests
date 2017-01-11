@@ -1,12 +1,41 @@
 version: 1.0.{build}
 build_script:
   - ps: .\buildUmbracoCms.ps1
+test: off
+deploy:
+- provider: NuGet
+  server: https://www.nuget.org/api/v2/package
+  api_key:
+    secure: qsYLcD3EOYOLIvCNAoqewbIu50P7F0BUmF6RnOK35z1wrTZbmTw+D5DPG+Y/EKvM
 notifications:
 - provider: Email
   to:
   - christianthillemann@gmail.com
-  subject: appVeyor build
-  message: "Mojn kedde\n\nDer er forsøgt en kørsel af kedde.umbraco.tests.dll på appVeyor"
+  subject: AppVeyor - Build success
+  message: "Mojn kedde\n\nNy kørsel af kedde.umbraco.tests.dll"
   on_build_success: true
+  on_build_failure: false
+  on_build_status_changed: false
+- provider: Email
+  to:
+  - christianthillemann@gmail.com
+  subject: AppVeyor - Build error
+  message: >-
+    Mojn kedde
+
+
+    Der skete en fejl ved bygning af kedde.umbraco.tests.dll
+  on_build_success: false
   on_build_failure: true
-  on_build_status_changed: true
+  on_build_status_changed: false
+
+environment:
+  access_token:
+    secure: cRHKcG0F5Dr7Mgf8t5z8p5BQF9Bt6gegCtm2uzvwZ39RQ2fjC0n3KImyNx/SdCvX
+  on_success:
+  - git config --global credential.helper store
+  - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
+  - git config --global user.email "christianthillemann@gmail.com"
+  - git config --global user.name "kedde"
+  - git commit -am "updated umbraco test"
+  - git push 
