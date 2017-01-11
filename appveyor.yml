@@ -1,4 +1,7 @@
 version: 1.0.{build}
+environment:
+  access_token:
+    secure: cRHKcG0F5Dr7Mgf8t5z8p5BQF9Bt6gegCtm2uzvwZ39RQ2fjC0n3KImyNx/SdCvX
 build_script:
   - ps: .\buildUmbracoCms.ps1
 test: off
@@ -29,10 +32,7 @@ notifications:
   on_build_failure: true
   on_build_status_changed: false
 
-environment:
-  access_token:
-    secure: cRHKcG0F5Dr7Mgf8t5z8p5BQF9Bt6gegCtm2uzvwZ39RQ2fjC0n3KImyNx/SdCvX
-  on_success:
+on_success:
   - git config --global credential.helper store
   - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
   - git config --global user.email "christianthillemann@gmail.com"
