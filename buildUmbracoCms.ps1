@@ -34,6 +34,7 @@ $oldVersion = $versionNode.InnerText
 $debug = $false
 if ($oldVersion -ne $umbracoVersion -Or $debug)
 {
+    $env:nugetPushNeeded="true"
     # update version in nuspec
     Write-Host "changing version " $versionNode.InnerText " to " $umbracoVersion
     $versionNode.InnerText = $umbracoVersion
