@@ -12,6 +12,15 @@ deploy:
     secure: qsYLcD3EOYOLIvCNAoqewbIu50P7F0BUmF6RnOK35z1wrTZbmTw+D5DPG+Y/EKvM
   on:
     nugetPushNeeded: true
+after_deploy:
+- ps: >-
+    git config --global credential.helper store
+    ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
+    git config --global user.email "christianthillemann@gmail.com"
+    git config --global user.name "kedde"
+    git commit -am "updated umbraco test"
+    git push
+
 notifications:
 - provider: Email
   to:
@@ -33,13 +42,3 @@ notifications:
   on_build_success: false
   on_build_failure: true
   on_build_status_changed: false
-
-on_success:
-  - git config --global credential.helper store
-  - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
-  - git config --global user.email "christianthillemann@gmail.com"
-  - git config --global user.name "kedde"
-  - git commit -am "updated umbraco test"
-  - git push 
-  on:
-    nugetPushNeeded: true
