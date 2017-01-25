@@ -10,13 +10,10 @@ deploy:
   server: https://www.nuget.org/api/v2/package
   api_key:
     secure: qsYLcD3EOYOLIvCNAoqewbIu50P7F0BUmF6RnOK35z1wrTZbmTw+D5DPG+Y/EKvM
-  on:
-    nugetPushNeeded: true
   artifact: kedde.Umbraco.TestsDlls\kedde.umbraco.testdlls.*.nupkg
 after_deploy:
 - ps: >-
-    git config --global credential.helper store
-    ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
+    git config --global credential.helper store Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
     git config --global user.email "christianthillemann@gmail.com"
     git config --global user.name "kedde"
     git commit -am "updated umbraco test"
