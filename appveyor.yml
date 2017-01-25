@@ -11,14 +11,6 @@ deploy:
   api_key:
     secure: qsYLcD3EOYOLIvCNAoqewbIu50P7F0BUmF6RnOK35z1wrTZbmTw+D5DPG+Y/EKvM
   artifact: kedde.Umbraco.TestsDlls\kedde.umbraco.testdlls.*.nupkg
-after_deploy:
-- ps: >-
-    git config --global credential.helper store Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
-    git config --global user.email "christianthillemann@gmail.com"
-    git config --global user.name "kedde"
-    git commit -am "updated umbraco test"
-    git push
-
 notifications:
 - provider: Email
   to:
@@ -34,7 +26,6 @@ notifications:
   subject: AppVeyor - Build error
   message: >-
     Mojn kedde
-
 
     Der skete en fejl ved bygning af kedde.umbraco.tests.dll
   on_build_success: false
