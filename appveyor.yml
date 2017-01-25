@@ -16,5 +16,7 @@ on_success:
   - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
   - git config --global user.email "christianthillemann@gmail.com"
   - git config --global user.name "kedde"
-  - git commit -am "updated version"
-  - git push
+  - git status
+  - git diff
+  - git commit -am "updated version"  
+  - git push origin HEAD:master
