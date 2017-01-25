@@ -34,6 +34,17 @@ $oldVersion = $versionNode.InnerText
 $debug = $false
 if ($oldVersion -ne $umbracoVersion -Or $debug)
 {
+    # run bat file
+    Write-Host "running ./Umbraco-CMS/build/build.bat"
+    Set-Location .\Umbraco-CMS\build
+    ./build.bat
+    Set-Location ..\..
+    if ($LASTEXITCODE -ne 0)
+    {
+        Write-Error "Encountered error while running build.bat"
+        exit
+    }
+
     $env:nugetPushNeeded="true"
     # update version in nuspec
     Write-Host "changing version " $versionNode.InnerText " to " $umbracoVersion
