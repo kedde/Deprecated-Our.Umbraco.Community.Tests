@@ -18,5 +18,5 @@ on_success:
   - git config --global user.name "kedde"
   - git status
   - git diff
-  - git commit -am "updated version"  
+  - git diff-index --quiet HEAD || git commit -am "updated nuspec version"
   - git push origin HEAD:master
