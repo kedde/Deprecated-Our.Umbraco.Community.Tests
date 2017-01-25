@@ -11,23 +11,10 @@ deploy:
   api_key:
     secure: qsYLcD3EOYOLIvCNAoqewbIu50P7F0BUmF6RnOK35z1wrTZbmTw+D5DPG+Y/EKvM
   artifact:  /.*\.nupkg/
-notifications:
-- provider: Email
-  to:
-  - christianthillemann@gmail.com
-  subject: AppVeyor - Build success
-  message: "Mojn kedde\n\nNy kørsel af kedde.umbraco.tests.dll"
-  on_build_success: true
-  on_build_failure: false
-  on_build_status_changed: false
-- provider: Email
-  to:
-  - christianthillemann@gmail.com
-  subject: AppVeyor - Build error
-  message: >-
-    Mojn kedde
-
-    Der skete en fejl ved bygning af kedde.umbraco.tests.dll
-  on_build_success: false
-  on_build_failure: true
-  on_build_status_changed: false
+on_success:
+  - git config --global credential.helper store
+  - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
+  - git config --global user.email "christianthillemann@gmail.com"
+  - git config --global user.name "kedde"
+  - git commit -am "updated version"
+  - git push
