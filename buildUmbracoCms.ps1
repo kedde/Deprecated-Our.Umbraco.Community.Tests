@@ -87,4 +87,5 @@ if ($oldVersion -ne $umbracoVersion -Or $debug)
     # push update version back
     #git commit -am "update version to $($umbracoVersion)"
     #git push 
+    Write-Host "deploy stuff should take over now"
 }
