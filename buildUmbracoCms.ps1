@@ -79,8 +79,11 @@ if ($oldVersion -ne $umbracoVersion -Or $debug)
     nuget pack .\kedde.Umbraco.TestsDlls\Package.nuspec -OutputDirectory .\kedde.Umbraco.TestsDlls\
     Get-Location
     Get-ChildItem
-    Write-Host "Push-AppveyorArtifact .\kedde.Umbraco.TestsDlls\kedde.Umbraco.TestsDlls.$($umbracoVersion).nupkg"
-    Push-AppveyorArtifact .\kedde.Umbraco.TestsDlls\kedde.Umbraco.TestsDlls.$($umbracoVersion).nupkg
+    
+    #
+
+    Write-Host "Push-AppveyorArtifact .\kedde.Umbraco.TestsDlls\kedde.Umbraco.TestDlls.$($umbracoVersion).nupkg"
+    Push-AppveyorArtifact .\kedde.Umbraco.TestsDlls\kedde.Umbraco.TestDlls.$($umbracoVersion).nupkg
     # upload package
     # make sure the nuget setApiKey Your-API-Key has been executed or set in the environment
     #$apikey = $env:nugetApiKey
@@ -90,5 +93,5 @@ if ($oldVersion -ne $umbracoVersion -Or $debug)
     # push update version back
     #git commit -am "update version to $($umbracoVersion)"
     #git push 
-    Write-Host "deploy stuff should take over now"
+    # Write-Host "deploy stuff should take over now"
 }
