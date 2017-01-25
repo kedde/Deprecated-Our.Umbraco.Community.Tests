@@ -77,10 +77,6 @@ if ($oldVersion -ne $umbracoVersion -Or $debug)
     # build package
     Write-Host "pack nuget package"
     nuget pack .\kedde.Umbraco.TestsDlls\Package.nuspec -OutputDirectory .\kedde.Umbraco.TestsDlls\
-    Get-Location
-    Get-ChildItem
-    
-    #
 
     Write-Host "Push-AppveyorArtifact .\kedde.Umbraco.TestsDlls\kedde.Umbraco.TestDlls.$($umbracoVersion).nupkg"
     Push-AppveyorArtifact .\kedde.Umbraco.TestsDlls\kedde.Umbraco.TestDlls.$($umbracoVersion).nupkg
