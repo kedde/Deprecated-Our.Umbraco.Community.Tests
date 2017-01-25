@@ -12,6 +12,7 @@ deploy:
     secure: qsYLcD3EOYOLIvCNAoqewbIu50P7F0BUmF6RnOK35z1wrTZbmTw+D5DPG+Y/EKvM
   on:
     nugetPushNeeded: true
+  artifact: kedde.Umbraco.TestsDlls\kedde.umbraco.testdlls.*.nupkg
 after_deploy:
 - ps: >-
     git config --global credential.helper store
