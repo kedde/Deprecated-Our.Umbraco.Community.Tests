@@ -10,7 +10,7 @@ deploy:
   server: https://www.nuget.org/api/v2/package
   api_key:
     secure: qsYLcD3EOYOLIvCNAoqewbIu50P7F0BUmF6RnOK35z1wrTZbmTw+D5DPG+Y/EKvM
-  artifact: kedde.Umbraco.TestsDlls\*.nupkg
+  artifact: "*.nupkg"
 notifications:
 - provider: Email
   to:
