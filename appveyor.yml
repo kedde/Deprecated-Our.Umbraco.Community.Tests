@@ -10,12 +10,12 @@ deploy:
   server: https://www.nuget.org/api/v2/package
   api_key:
     secure: qsYLcD3EOYOLIvCNAoqewbIu50P7F0BUmF6RnOK35z1wrTZbmTw+D5DPG+Y/EKvM
-  artifact: '*.nupkg'
+  artifact: /.*\.nupkg/
 - provider: NuGet
   server: https://www.myget.org/F/umbraco-packages/
   api_key:
     secure: rDRFa13qnNBv4tehvJuw/lr/rYB0iLfVepQMQPYInOjria+LTV01ij1GUIz7mIki
-  artifact: '*.nupkg'
+  artifact: /.*\.nupkg/
 on_success:
   - git config --global credential.helper store
   - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
