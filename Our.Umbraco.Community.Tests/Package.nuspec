@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <package>
   <metadata>
-    <id>kedde.umbraco.testdlls</id>
+    <id>Our.Umbraco.Community.Tests</id>
     <version>7.5.8</version>
     <authors>kedde</authors>
     <owners>kedde</owners>
-    <licenseUrl>https://github.com/kedde/UmbracoBuild/raw/master/doc/license.txt</licenseUrl>
-    <projectUrl>https://github.com/kedde/UmbracoBuild</projectUrl>
-    <iconUrl>https://github.com/kedde/UmbracoBuild/raw/master/doc/tux.png</iconUrl>
+    <licenseUrl>https://github.com/kedde/Our.Umbraco.Community.Tests/raw/master/doc/license.txt</licenseUrl>
+    <projectUrl>https://github.com/kedde/Our.Umbraco.Community.Tests</projectUrl>
+    <iconUrl>https://github.com/kedde/Our.Umbraco.Community.Tests/raw/master/doc/tux.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>
             The Umbraco.Tests.dll and pdb files, built from the UmbracoCMS source code.
