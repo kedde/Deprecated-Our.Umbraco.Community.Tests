@@ -24,7 +24,7 @@ $umbracoVersion = Get-Content $versionFile | Select-Object -last 1
 Write-Host "building umbraco version " + $umbracoVersion
 
 # update version number in nuspec package
-$file = Get-Item ".\kedde.Umbraco.TestsDlls\Package.nuspec"
+$file = Get-Item ".\Our.Umbraco.Community.Tests\Package.nuspec"
 Write-Host $file.FullName
 [xml] $doc = Get-Content($file.FullName)
 $versionNode = $doc.SelectSingleNode("//package/metadata/version")
@@ -76,10 +76,17 @@ if ($oldVersion -ne $umbracoVersion -Or $debug)
 
     # build package
     Write-Host "pack nuget package"
-    nuget pack .\kedde.Umbraco.TestsDlls\Package.nuspec -OutputDirectory .\kedde.Umbraco.TestsDlls\
+    nuget pack .\Our.Umbraco.Community.Tests\Package.nuspec -OutputDirectory .\Our.Umbraco.Community.Tests\
 
-    Write-Host "Push-AppveyorArtifact .\kedde.Umbraco.TestsDlls\kedde.Umbraco.TestDlls.$($umbracoVersion).nupkg"
-    Push-AppveyorArtifact .\kedde.Umbraco.TestsDlls\kedde.Umbraco.TestDlls.$($umbracoVersion).nupkg
+    Write-Host "Push-AppveyorArtifact .\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg"
+
+    # push to nuget
+    Push-AppveyorArtifact .\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg
+
+    # push to myget
+    # nuget push SamplePackage.1.0.0.nupkg <your access token> -Source https://www.myget.org/F/umbraco-packages/
+    # Push-AppveyorArtifact .\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg
+
     # upload package
     # make sure the nuget setApiKey Your-API-Key has been executed or set in the environment
     #$apikey = $env:nugetApiKey
