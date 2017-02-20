@@ -6,7 +6,6 @@ build_script:
   - ps: .\buildUmbracoCms.ps1
 test: off
 deploy:
-deploy:
 - provider: NuGet
   server: https://www.nuget.org/api/v2/package
   api_key:
