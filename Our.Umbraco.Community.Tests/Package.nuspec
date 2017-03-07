@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Our.Umbraco.Community.Tests</id>
-    <version>7.5.10</version>
+    <version>7.5.11</version>
     <authors>kedde</authors>
     <owners>kedde</owners>
     <licenseUrl>https://github.com/kedde/Our.Umbraco.Community.Tests/raw/master/doc/license.txt</licenseUrl>
