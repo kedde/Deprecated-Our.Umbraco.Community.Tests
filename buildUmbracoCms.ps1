@@ -16,8 +16,8 @@ Set-Location Umbraco-Cms
 git checkout master-v7
 
 Write-Host "importing umbraco environment"
-# Import-Module  -Name ".\build\build" 
-Invoke-Expression build\build.ps1 -mo
+Import-Module ".\build\build.ps1" -mo
+# Invoke-Expression build\build.ps1 -mo
 Write-Host "Done - importing umbraco environment"
 Set-Location ..
 # build 
