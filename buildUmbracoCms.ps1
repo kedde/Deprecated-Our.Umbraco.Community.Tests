@@ -14,13 +14,26 @@ else
 # checkout the master
 Set-Location Umbraco-Cms
 git checkout master-v7
+
+Write-Host "importing umbraco environment"
+# Import-Module  -Name ".\build\build" 
+Invoke-Expression build\build.ps1 -mo
+Write-Host "Done - importing umbraco environment"
 Set-Location ..
 # build 
 # .\Umbraco-cms\build\build.bat
 
+# after 7.7
+$umbracoVersionVars = Get-UmbracoVersion
+$umbracoVersion = $umbracoVersionVars.Release
+Write-Host $umbracoVersionVars 
+Write-Host "version " $umbracoVersion
+
+# pause
+# prior
 # read current version
-$versionFile = ".\Umbraco-cms\build\UmbracoVersion.txt"
-$umbracoVersion = Get-Content $versionFile | Select-Object -last 1
+# $versionFile = ".\Umbraco-cms\build\UmbracoVersion.txt"
+#$umbracoVersion = Get-Content $versionFile | Select-Object -last 1
 Write-Host "building umbraco version " + $umbracoVersion
 
 # update version number in nuspec package
