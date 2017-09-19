@@ -16,7 +16,11 @@ Set-Location Umbraco-Cms
 git checkout master-v7
 
 Write-Host "importing umbraco environment"
-Invoke-Expression ".\build\build.ps1" -mo
+foreach ($num in 1) {
+    # dirty hack because of break in build.ps1 when using -mo
+    Invoke-Expression -Verbose  -ErrorAction silentlyContinue ".\build\build.ps1 -mo" 
+}
+
 # Invoke-Expression build\build.ps1 -mo
 Write-Host "Done - importing umbraco environment"
 Set-Location ..
