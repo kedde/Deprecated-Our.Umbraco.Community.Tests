@@ -50,7 +50,7 @@ if ($oldVersion -ne $umbracoVersion -Or $debug)
     # run bat file
     Write-Host "running ./Umbraco-CMS/build/build.bat"
     Set-Location .\Umbraco-CMS\build
-    ./build.bat
+    Invoke-Expression build.bat
     Set-Location ..\..
     if ($LASTEXITCODE -ne 0)
     {
