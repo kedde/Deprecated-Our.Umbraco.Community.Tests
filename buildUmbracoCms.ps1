@@ -48,9 +48,8 @@ $debug = $false
 if ($oldVersion -ne $umbracoVersion -Or $debug)
 {
     # run bat file
-    Write-Host "running ./Umbraco-CMS/build/build.bat"
     Set-Location .\Umbraco-CMS\build
-    Invoke-Expression build.bat
+    build-umbraco compile-tests
     Set-Location ..\..
     if ($LASTEXITCODE -ne 0)
     {
@@ -66,25 +65,25 @@ if ($oldVersion -ne $umbracoVersion -Or $debug)
     Write-Host "version " $versionNode.InnerText 
 
     # restore nuget
-    Write-Host "restore nuget packages"
-    $slnDirectory = ".\Umbraco-cms\src"
-    $projects = Get-ChildItem -path $slnDirectory -Recurse -Include *.csproj
-    foreach ($projFile in $projects)
-    {
-        Write-Host $projFile
-        NuGet.exe restore $projFile -solutiondirectory $slnDirectory
-    }
+    # Write-Host "restore nuget packages"
+    # $slnDirectory = ".\Umbraco-cms\src"
+    # $projects = Get-ChildItem -path $slnDirectory -Recurse -Include *.csproj
+    # foreach ($projFile in $projects)
+    # {
+    #     Write-Host $projFile
+    #     NuGet.exe restore $projFile -solutiondirectory $slnDirectory
+    # }
 
-    # build the solution
-    Write-Host "start building the solution"
-    $windir=[System.Environment]::ExpandEnvironmentVariables("%WINDIR%")
-    Write-Host $windir
-    $msbuild = "C:\Program` Files` (x86)\MSBuild\14.0\Bin\MSBuild.exe"
+    # # build the solution
+    # Write-Host "start building the solution"
+    # $windir=[System.Environment]::ExpandEnvironmentVariables("%WINDIR%")
+    # Write-Host $windir
+    # $msbuild = "C:\Program` Files` (x86)\MSBuild\14.0\Bin\MSBuild.exe"
 
-    $sln="Umbraco-cms\src\Umbraco.sln"
-    $build = "&'" + $msbuild + "' " +$sln + " /p:Configuration=Debug /consoleloggerparameters:ErrorsOnly"
-    Invoke-Expression $build    
-    Write-Host "done building umbraco $($umbracoVersion)"
+    # $sln="Umbraco-cms\src\Umbraco.sln"
+    # $build = "&'" + $msbuild + "' " +$sln + " /p:Configuration=Debug /consoleloggerparameters:ErrorsOnly"
+    # Invoke-Expression $build    
+    # Write-Host "done building umbraco $($umbracoVersion)"
 
 
     # build package
