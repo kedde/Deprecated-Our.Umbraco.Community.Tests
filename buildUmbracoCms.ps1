@@ -16,7 +16,7 @@ Set-Location Umbraco-Cms
 git checkout master-v7
 
 Write-Host "importing umbraco environment"
-Import-Module ".\build\build.ps1" -mo
+Invoke-Expression ".\build\build.ps1" -mo
 # Invoke-Expression build\build.ps1 -mo
 Write-Host "Done - importing umbraco environment"
 Set-Location ..
@@ -109,4 +109,7 @@ if ($oldVersion -ne $umbracoVersion -Or $debug)
     #git commit -am "update version to $($umbracoVersion)"
     #git push 
     # Write-Host "deploy stuff should take over now"
+}
+else{
+    Write-Host "no build needed"
 }
