@@ -52,9 +52,9 @@ $debug = $false
 if ($oldVersion -ne $umbracoVersion -Or $debug)
 {
     # run bat file
-    Set-Location .\Umbraco-CMS\build
-    build-umbraco compile-tests
-    Set-Location ..\..
+    # Set-Location .\Umbraco-CMS\build
+    # build-umbraco compile-tests
+    # Set-Location ..\..
     if ($LASTEXITCODE -ne 0)
     {
         Write-Error "Encountered error while running build.bat"
@@ -68,26 +68,27 @@ if ($oldVersion -ne $umbracoVersion -Or $debug)
     $doc.Save($file.FullName)
     Write-Host "version " $versionNode.InnerText 
 
-    # restore nuget
-    # Write-Host "restore nuget packages"
-    # $slnDirectory = ".\Umbraco-cms\src"
-    # $projects = Get-ChildItem -path $slnDirectory -Recurse -Include *.csproj
-    # foreach ($projFile in $projects)
-    # {
-    #     Write-Host $projFile
-    #     NuGet.exe restore $projFile -solutiondirectory $slnDirectory
-    # }
-
+    # restore nuget in test directore
+    Write-Host "restore nuget packages"
+    $slnDirectory = ".\Umbraco-cms\src"
+    $projects = Get-ChildItem -path $slnDirectory -Recurse -Include *.csproj
+    foreach ($projFile in $projects)
+    {
+        Write-Host $projFile
+        NuGet.exe restore $projFile -solutiondirectory $slnDirectory
+    }
+    
     # # build the solution
-    # Write-Host "start building the solution"
-    # $windir=[System.Environment]::ExpandEnvironmentVariables("%WINDIR%")
-    # Write-Host $windir
-    # $msbuild = "C:\Program` Files` (x86)\MSBuild\14.0\Bin\MSBuild.exe"
+    Write-Host "start building the tests project"
+    $msbuild = "C:\Program` Files` (x86)\MSBuild\14.0\Bin\MSBuild.exe"
 
-    # $sln="Umbraco-cms\src\Umbraco.sln"
-    # $build = "&'" + $msbuild + "' " +$sln + " /p:Configuration=Debug /consoleloggerparameters:ErrorsOnly"
-    # Invoke-Expression $build    
-    # Write-Host "done building umbraco $($umbracoVersion)"
+    
+    $testProj=".\Umbraco-cms\src\Umbraco.Tests\Umbraco.Tests.csproj"
+    $sln="Umbraco-cms\src\Umbraco.sln"
+    # /t:Umbraco.Tests 
+    $build = "&'" + $msbuild + "' " +$sln +  " /p:Configuration=Debug /consoleloggerparameters:ErrorsOnly"
+    Invoke-Expression $build    
+    Write-Host "done building umbraco $($umbracoVersion)"
 
 
     # build package
