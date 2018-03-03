@@ -1,14 +1,5 @@
 # choco install nuget.commandline?
 
-# import umbraco module
-$currentPath = [System.IO.Path]::GetDirectoryName($pwd)
-Write-Host $currentPath
-
-$mpath =  $currentPath + "Umbraco-CMS\build\Modules\"
-$env:PSModulePath = "$mpath;$env:PSModulePath"
-Import-Module Umbraco.Build -Force -DisableNameChecking
-
-Get-ChildItem
 
 
 
@@ -26,10 +17,18 @@ else {
 Set-Location Umbraco-Cms
 git checkout master-v7
 
+# import umbraco module
+$currentPath = [System.IO.Path]::GetDirectoryName($pwd)
+Write-Host $currentPath
+
+$mpath =  $currentPath + "Umbraco-CMS\build\Modules\"
+$env:PSModulePath = "$mpath;$env:PSModulePath"
+Import-Module Umbraco.Build -Force -DisableNameChecking
+
 Write-Host "importing umbraco environment"
 foreach ($num in 1) {
     # dirty hack because of break in build.ps1 when using -mo
-    Invoke-Expression -Verbose  -ErrorAction silentlyContinue ".\build\build.ps1 -mo" 
+    # Invoke-Expression -Verbose  -ErrorAction silentlyContinue ".\build\build.ps1 -mo" 
 }
 
 # Invoke-Expression build\build.ps1 -mo
