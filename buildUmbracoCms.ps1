@@ -87,7 +87,7 @@ if ($oldVersion -ne $umbracoVersion -Or $debug) {
     Write-Host "pack nuget package"
     Set-Location $PSScriptRoot
     Get-ChildItem
-    Set-Location Umbraco-CMS\build.tmp\tests
+    Set-Location Umbraco-CMS\build.tmp\tests\bin
     Get-ChildItem
 
     nuget pack .\Our.Umbraco.Community.Tests\Package.nuspec -OutputDirectory .\Our.Umbraco.Community.Tests\
