@@ -20,7 +20,8 @@ Set-Location ..
 
 # import umbraco module
 $currentPath = [System.IO.Path]::GetDirectoryName($pwd)
-Write-Host $currentPath
+Write-Host "PSScriptRoot" $PSScriptRoot
+Write-Host "currentPath: " $currentPath
 Get-ChildItem
 
 $mpath = $currentPath + "\Umbraco-CMS\build\Modules\"
