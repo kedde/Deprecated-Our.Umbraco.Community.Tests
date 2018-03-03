@@ -88,8 +88,11 @@ if ($oldVersion -ne $umbracoVersion -Or $debug) {
     Get-ChildItem
     Set-Location Umbraco-CMS\build.tmp\tests\
     Get-ChildItem
+    Write-Host "going to the bin folder"
     Set-Location bin
+    $thedir = Get-Location
     Get-ChildItem
+    Write-Host $thedir
 
 
     Write-Host "pack nuget package"
