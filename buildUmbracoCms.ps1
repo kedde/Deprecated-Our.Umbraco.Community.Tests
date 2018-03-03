@@ -68,6 +68,8 @@ if ($oldVersion -ne $umbracoVersion -Or $debug) {
     if (-not [System.IO.Directory]::Exists($PSScriptRoot + "\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg")) {
         Write-Error "nuget package error: \Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg does not exist"
         Write-Error $PSScriptRoot + "\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg"
+        Set-Location .\Our.Umbraco.Community.Tests
+        Get-ChildItem
         break
     }
 
