@@ -23,7 +23,14 @@ $currentPath = [System.IO.Path]::GetDirectoryName($pwd)
 Write-Host $currentPath
 Get-ChildItem
 
-$mpath =  $currentPath + "Umbraco-CMS\build\Modules\"
+$mpath =  $currentPath + "\Umbraco-CMS\build\Modules\"
+
+if (-not [System.IO.Directory]::Exists($mpath + "Umbraco.Build"))
+{
+  Write-Error "Could not locate Umbraco build Powershell module."
+  break
+}
+
 $env:PSModulePath = "$mpath;$env:PSModulePath"
 Import-Module Umbraco.Build -Force -DisableNameChecking
 
