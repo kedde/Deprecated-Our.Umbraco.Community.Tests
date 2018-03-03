@@ -86,7 +86,7 @@ if ($oldVersion -ne $umbracoVersion -Or $debug)
     $testProj=".\Umbraco-cms\src\Umbraco.Tests\Umbraco.Tests.csproj"
     $sln="Umbraco-cms\src\Umbraco.sln"
     # /t:Umbraco.Tests 
-    $build = "&'" + $msbuild + "' " +$sln +  " /p:Configuration=Debug /consoleloggerparameters:ErrorsOnly"
+    $build = "&'" + $msbuild + "' " +$sln +  " /p:Configuration=Debug /consoleloggerparameters:ErrorsOnly /langversion:6"
     Invoke-Expression $build    
     Write-Host "done building umbraco $($umbracoVersion)"
 
