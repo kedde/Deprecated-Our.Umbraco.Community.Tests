@@ -75,11 +75,12 @@ if ($oldVersion -ne $umbracoVersion -Or $debug) {
     # }
 
     # $env:nugetPushNeeded="true"
-    # # update version in nuspec
-    # Write-Host "changing version " $versionNode.InnerText " to " $umbracoVersion
-    # $versionNode.InnerText = $umbracoVersion
-    # $doc.Save($file.FullName)
-    # Write-Host "version " $versionNode.InnerText 
+
+    # update version in nuspec
+    Write-Host "changing version " $versionNode.InnerText " to " $umbracoVersion
+    $versionNode.InnerText = $umbracoVersion
+    $doc.Save($file.FullName)
+    Write-Host "version " $versionNode.InnerText 
 
     # # restore nuget in test directore
     # Write-Host "restore nuget packages"
