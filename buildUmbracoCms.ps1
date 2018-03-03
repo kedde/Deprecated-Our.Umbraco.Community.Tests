@@ -84,11 +84,16 @@ if ($oldVersion -ne $umbracoVersion -Or $debug) {
     Write-Host "version " $versionNode.InnerText 
 
     # build package
-    Write-Host "pack nuget package"
     Set-Location $PSScriptRoot
     Get-ChildItem
-    Set-Location Umbraco-CMS\build.tmp\tests\bin
+    Set-Location Umbraco-CMS\build.tmp\tests\
     Get-ChildItem
+    Set-Location bin
+    Get-ChildItem
+
+
+    Write-Host "pack nuget package"
+    Set-Location ..\..\..
 
     nuget pack .\Our.Umbraco.Community.Tests\Package.nuspec -OutputDirectory .\Our.Umbraco.Community.Tests\
     if (-not [System.IO.Directory]::Exists($PSScriptRoot + "\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg")) {
