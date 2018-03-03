@@ -74,24 +74,11 @@ $oldVersion = $versionNode.InnerText
 $debug = $false
 if ($oldVersion -ne $umbracoVersion -Or $debug) {
     # compile the test
-    # $uenv = Get-UmbracoBuildEnv
     Set-UmbracoVersion $umbracoVersion
     Set-Location .\Umbraco-CMS\build
     Build-Umbraco pre-tests Debug
     Build-Umbraco compile-tests Debug
     Set-Location ..\..
-
-    # run bat file
-    # Set-Location .\Umbraco-CMS\build
-    # build-umbraco compile-tests
-    # Set-Location ..\..
-    # if ($LASTEXITCODE -ne 0)
-    # {
-    #     Write-Error "Encountered error while running build.bat"
-    #     exit
-    # }
-
-    # $env:nugetPushNeeded="true"
 
     # update version in nuspec
     Write-Host "changing version " $versionNode.InnerText " to " $umbracoVersion
@@ -99,33 +86,9 @@ if ($oldVersion -ne $umbracoVersion -Or $debug) {
     $doc.Save($file.FullName)
     Write-Host "version " $versionNode.InnerText 
 
-    # # restore nuget in test directore
-    # Write-Host "restore nuget packages"
-    # $slnDirectory = ".\Umbraco-cms\src"
-    # $projects = Get-ChildItem -path $slnDirectory -Recurse -Include *.csproj
-    # foreach ($projFile in $projects)
-    # {
-    #     Write-Host $projFile
-    #     NuGet.exe restore $projFile -solutiondirectory $slnDirectory
-    # }
-    
-    # # # build the solution
-    # Write-Host "start building the tests project"
-    # $msbuild = "C:\Program` Files` (x86)\MSBuild\14.0\Bin\MSBuild.exe"
-
-    
-    # # $testProj=".\Umbraco-cms\src\Umbraco.Tests\Umbraco.Tests.csproj"
-    # $sln="Umbraco-cms\src\Umbraco.sln"
-    # # /t:Umbraco.Tests 
-    # # $build = "&'" + $msbuild + "' " +$sln +  " /p:Configuration=Debug /consoleloggerparameters:ErrorsOnly /langversion:6"
-    # $build = "&'" + $msbuild + "' " +$sln +  " /p:Configuration=Debug /t:rebuild /consoleloggerparameters:ErrorsOnly"
-    # Invoke-Expression $build    
-    # Write-Host "done building umbraco $($umbracoVersion)"
-
-
     # build package
     Write-Host "pack nuget package"
-    nuget pack .\Our.Umbraco.Community.Tests\Package.nuspec -OutputDirectory .\Our.Umbraco.Community.Tests\
+    nuget pack $PSScriptRoot\Our.Umbraco.Community.Tests\Package.nuspec -OutputDirectory $PSScriptRoot\Our.Umbraco.Community.Tests\
 
     Write-Host "Push-AppveyorArtifact .\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg"
 
