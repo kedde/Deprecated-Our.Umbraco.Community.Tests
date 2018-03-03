@@ -16,6 +16,7 @@ else {
 # checkout the master
 Set-Location Umbraco-Cms
 git checkout master-v7
+Set-Location ..
 
 # import umbraco module
 $currentPath = [System.IO.Path]::GetDirectoryName($pwd)
@@ -30,6 +31,7 @@ Set-Location $mpath
 Get-ChildItem
 
 
+
 Write-Host "importing umbraco environment"
 foreach ($num in 1) {
     # dirty hack because of break in build.ps1 when using -mo
@@ -38,7 +40,7 @@ foreach ($num in 1) {
 
 # Invoke-Expression build\build.ps1 -mo
 Write-Host "Done - importing umbraco environment"
-Set-Location ..
+# Set-Location ..
 # build 
 # .\Umbraco-cms\build\build.bat
 
