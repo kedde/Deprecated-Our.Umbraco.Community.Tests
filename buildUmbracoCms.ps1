@@ -88,8 +88,8 @@ if ($oldVersion -ne $umbracoVersion -Or $debug) {
     Get-ChildItem
     Set-Location Umbraco-CMS\build.tmp\tests\
     Get-ChildItem
-    Write-Host "going to the Packaging folder"
-    Set-Location Packaging
+    Write-Host "going to the Packages folder"
+    Set-Location Packaging\Packages
     $thedir = Get-Location
     Get-ChildItem
     Write-Host $thedir
