@@ -101,8 +101,8 @@ if ($oldVersion -ne $umbracoVersion -Or $debug) {
     #nuget push .\kedde.Umbraco.TestsDlls\kedde.umbraco.testdlls.7.5.7.nupkg -source https://www.nuget.org/api/v2/package
 
     # push update version back
-    # git commit -am "update version to $($umbracoVersion)"
-    # git push 
+    git commit -am "update version to $($umbracoVersion)"
+    git push 
     Write-Host "deploy stuff should take over now"
 }
 else {
