@@ -67,6 +67,7 @@ if ($oldVersion -ne $umbracoVersion -Or $debug) {
     nuget pack .\Our.Umbraco.Community.Tests\Package.nuspec -OutputDirectory .\Our.Umbraco.Community.Tests\
     if (-not [System.IO.Directory]::Exists($PSScriptRoot + "\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg")) {
         Write-Error "nuget package error: \Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg does not exist"
+        Write-Error $PSScriptRoot + "\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg"
         break
     }
 
@@ -87,9 +88,9 @@ if ($oldVersion -ne $umbracoVersion -Or $debug) {
     #nuget push .\kedde.Umbraco.TestsDlls\kedde.umbraco.testdlls.7.5.7.nupkg -source https://www.nuget.org/api/v2/package
 
     # push update version back
-    #git commit -am "update version to $($umbracoVersion)"
-    #git push 
-    # Write-Host "deploy stuff should take over now"
+    # git commit -am "update version to $($umbracoVersion)"
+    # git push 
+    Write-Host "deploy stuff should take over now"
 }
 else {
     Write-Host "no build needed"
