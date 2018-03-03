@@ -73,30 +73,18 @@ if ($oldVersion -ne $umbracoVersion -Or $debug) {
     # compile the test
     Set-UmbracoVersion $umbracoVersion
     Set-Location .\Umbraco-CMS\build
+    Build-Umbraco pre-nuget Debug
+    Build-Umbraco pre-build Debug
+    Build-Umbraco restore-nuget Debug
+    # Build-Umbraco compile-umbraco Debug
     Build-Umbraco pre-tests Debug
     Build-Umbraco compile-tests Debug
     Set-Location ..\..
 
-    # update version in nuspec
-    Write-Host "changing version " $versionNode.InnerText " to " $umbracoVersion
-    $versionNode.InnerText = $umbracoVersion
-    $doc.Save($file.FullName)
-    Write-Host "version " $versionNode.InnerText 
+   
 
     # build package
-    Set-Location $PSScriptRoot
-    Get-ChildItem
-    Set-Location Umbraco-CMS\build.tmp\tests\
-    Get-ChildItem
-    Write-Host "going to the Packages folder"
-    Set-Location Packaging\Packages
-    $thedir = Get-Location
-    Get-ChildItem
-    Write-Host $thedir
-
-
     Write-Host "pack nuget package"
-    Set-Location ..\..\..
 
     nuget pack .\Our.Umbraco.Community.Tests\Package.nuspec -OutputDirectory .\Our.Umbraco.Community.Tests\
     if (-not [System.IO.Directory]::Exists($PSScriptRoot + "\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg")) {
@@ -108,6 +96,12 @@ if ($oldVersion -ne $umbracoVersion -Or $debug) {
 
     # push to nuget
     Push-AppveyorArtifact .\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg
+
+    # update version in nuspec
+    Write-Host "changing version " $versionNode.InnerText " to " $umbracoVersion
+    $versionNode.InnerText = $umbracoVersion
+    $doc.Save($file.FullName)
+    Write-Host "version " $versionNode.InnerText 
 
     # push to myget
     # nuget push SamplePackage.1.0.0.nupkg <your access token> -Source https://www.myget.org/F/umbraco-packages/
