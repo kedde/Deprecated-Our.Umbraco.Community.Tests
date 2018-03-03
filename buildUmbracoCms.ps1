@@ -88,6 +88,7 @@ if ($oldVersion -ne $umbracoVersion -Or $debug) {
 
     # build package
     Write-Host "pack nuget package"
+    Set-Location $PSScriptRoot
     nuget pack $PSScriptRoot\Our.Umbraco.Community.Tests\Package.nuspec -OutputDirectory $PSScriptRoot\Our.Umbraco.Community.Tests\
 
     Write-Host "Push-AppveyorArtifact .\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg"
