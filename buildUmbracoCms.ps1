@@ -25,9 +25,6 @@ Get-ChildItem
 $mpath = $PSScriptRoot + "\Umbraco-CMS\build\Modules\"
 
 if (-not [System.IO.Directory]::Exists($mpath + "Umbraco.Build")) {
-    Write-Host $mpath
-    Set-Location $mpath
-    Get-ChildItem
     Write-Error "Could not locate Umbraco build Powershell module."
     break
 }
@@ -89,7 +86,13 @@ if ($oldVersion -ne $umbracoVersion -Or $debug) {
     # build package
     Write-Host "pack nuget package"
     Set-Location $PSScriptRoot
-    nuget pack $PSScriptRoot\Our.Umbraco.Community.Tests\Package.nuspec -OutputDirectory $PSScriptRoot\Our.Umbraco.Community.Tests\
+
+    nuget pack .\Our.Umbraco.Community.Tests\Package.nuspec -OutputDirectory .\Our.Umbraco.Community.Tests\
+    if (-not [System.IO.Directory]::Exists($PSScriptRoot + "\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg")) {
+        Write-Error "Could not locate Umbraco build Powershell module."
+        break
+    }
+
 
     Write-Host "Push-AppveyorArtifact .\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg"
 
