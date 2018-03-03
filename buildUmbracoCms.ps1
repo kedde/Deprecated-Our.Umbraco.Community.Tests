@@ -89,10 +89,9 @@ if ($oldVersion -ne $umbracoVersion -Or $debug) {
 
     nuget pack .\Our.Umbraco.Community.Tests\Package.nuspec -OutputDirectory .\Our.Umbraco.Community.Tests\
     if (-not [System.IO.Directory]::Exists($PSScriptRoot + "\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg")) {
-        Write-Error "Could not locate Umbraco build Powershell module."
+        Write-Error "nuget package error"
         break
     }
-
 
     Write-Host "Push-AppveyorArtifact .\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg"
 
