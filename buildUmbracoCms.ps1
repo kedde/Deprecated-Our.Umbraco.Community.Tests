@@ -19,12 +19,10 @@ git checkout master-v7
 Set-Location ..
 
 # import umbraco module
-$currentPath = [System.IO.Path]::GetDirectoryName($pwd)
 Write-Host "PSScriptRoot" $PSScriptRoot
-Write-Host "currentPath: " $currentPath
 Get-ChildItem
 
-$mpath = $currentPath + "\Umbraco-CMS\build\Modules\"
+$mpath = $PSScriptRoot + "\Umbraco-CMS\build\Modules\"
 
 if (-not [System.IO.Directory]::Exists($mpath + "Umbraco.Build")) {
     Write-Host $mpath
