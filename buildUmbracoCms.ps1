@@ -55,6 +55,7 @@ if ($oldVersion -ne $umbracoVersion -Or $debug) {
     Build-Umbraco compile-tests Debug
     Set-Location ..\..
 
+    Get-Location
     # update version in nuspec
     Write-Host "updating nuspec " + $umbracoVersion
     Write-Host "changing version " $versionNode.InnerText " to " $umbracoVersion
@@ -65,9 +66,9 @@ if ($oldVersion -ne $umbracoVersion -Or $debug) {
     # build package
     Write-Host "pack nuget package"
     nuget pack .\Our.Umbraco.Community.Tests\Package.nuspec -OutputDirectory .\Our.Umbraco.Community.Tests\
-    if (-not [System.IO.Directory]::Exists($PSScriptRoot + "\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg")) {
+    if (-not [System.IO.Directory]::Exists(".\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg")) {
         Write-Error "nuget package error: \Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg does not exist"
-        Write-Error $PSScriptRoot + "\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg"
+        Write-Error $PSScriptRoot"\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg"
         Set-Location .\Our.Umbraco.Community.Tests
         Get-ChildItem
         break
