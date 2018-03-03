@@ -1,8 +1,4 @@
 # choco install nuget.commandline?
-
-
-
-
 $UmbracoCms = "Umbraco-Cms"
 if (!(Test-Path -Path $UmbracoCms)) {
     git clone https://github.com/umbraco/Umbraco-CMS.git
@@ -19,9 +15,6 @@ git checkout master-v7
 Set-Location ..
 
 # import umbraco module
-Write-Host "PSScriptRoot" $PSScriptRoot
-Get-ChildItem
-
 $mpath = $PSScriptRoot + "\Umbraco-CMS\build\Modules\"
 
 if (-not [System.IO.Directory]::Exists($mpath + "Umbraco.Build")) {
@@ -32,20 +25,7 @@ if (-not [System.IO.Directory]::Exists($mpath + "Umbraco.Build")) {
 $env:PSModulePath = "$mpath;$env:PSModulePath"
 Import-Module Umbraco.Build -Force -DisableNameChecking
 
-
-
-
-Write-Host "importing umbraco environment"
-foreach ($num in 1) {
-    # dirty hack because of break in build.ps1 when using -mo
-    # Invoke-Expression -Verbose  -ErrorAction silentlyContinue ".\build\build.ps1 -mo" 
-}
-
-# Invoke-Expression build\build.ps1 -mo
 Write-Host "Done - importing umbraco environment"
-# Set-Location ..
-# build 
-# .\Umbraco-cms\build\build.bat
 
 # after 7.7
 $umbracoVersionVars = Get-UmbracoVersion
@@ -53,12 +33,6 @@ $umbracoVersion = $umbracoVersionVars.Release
 Write-Host $umbracoVersionVars 
 Write-Host "version " $umbracoVersion
 
-# pause
-# prior
-# read current version
-# $versionFile = ".\Umbraco-cms\build\UmbracoVersion.txt"
-#$umbracoVersion = Get-Content $versionFile | Select-Object -last 1
-Write-Host "updating nuspec " + $umbracoVersion
 
 # update version number in nuspec package
 $file = Get-Item ".\Our.Umbraco.Community.Tests\Package.nuspec"
@@ -81,11 +55,15 @@ if ($oldVersion -ne $umbracoVersion -Or $debug) {
     Build-Umbraco compile-tests Debug
     Set-Location ..\..
 
-   
+    # update version in nuspec
+    Write-Host "updating nuspec " + $umbracoVersion
+    Write-Host "changing version " $versionNode.InnerText " to " $umbracoVersion
+    $versionNode.InnerText = $umbracoVersion
+    $doc.Save($file.FullName)
+    Write-Host "version " $versionNode.InnerText 
 
     # build package
     Write-Host "pack nuget package"
-
     nuget pack .\Our.Umbraco.Community.Tests\Package.nuspec -OutputDirectory .\Our.Umbraco.Community.Tests\
     if (-not [System.IO.Directory]::Exists($PSScriptRoot + "\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg")) {
         Write-Error "nuget package error: \Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg does not exist"
@@ -97,11 +75,6 @@ if ($oldVersion -ne $umbracoVersion -Or $debug) {
     # push to nuget
     Push-AppveyorArtifact .\Our.Umbraco.Community.Tests\Our.Umbraco.Community.Tests.$($umbracoVersion).nupkg
 
-    # update version in nuspec
-    Write-Host "changing version " $versionNode.InnerText " to " $umbracoVersion
-    $versionNode.InnerText = $umbracoVersion
-    $doc.Save($file.FullName)
-    Write-Host "version " $versionNode.InnerText 
 
     # push to myget
     # nuget push SamplePackage.1.0.0.nupkg <your access token> -Source https://www.myget.org/F/umbraco-packages/
