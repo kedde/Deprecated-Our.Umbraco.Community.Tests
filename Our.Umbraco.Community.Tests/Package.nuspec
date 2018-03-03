@@ -21,7 +21,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\Umbraco-CMS\src\Umbraco.Tests\bin\Debug\Umbraco.Tests.dll" target="lib" />
-    <file src="..\Umbraco-CMS\src\Umbraco.Tests\bin\Debug\Umbraco.Tests.pdb" target="lib" />
+    <file src="..\Umbraco-CMS\build.tmp\tests\Umbraco.Tests.dll" target="lib" />
+    <file src="..\Umbraco-CMS\build.tmp\tests\Umbraco.Tests.pdb" target="lib" />
   </files>
 </package>

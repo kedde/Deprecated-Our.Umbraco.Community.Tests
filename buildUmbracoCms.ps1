@@ -1,11 +1,17 @@
 # choco install nuget.commandline?
 
-$UmbracoCms="Umbraco-Cms"
-if(!(Test-Path -Path $UmbracoCms)){
+# import umbraco module
+$mpath = [System.IO.Path]::GetDirectoryName($pwd) + "Umbraco-CMS\build\Modules\"
+$env:PSModulePath = "$mpath;$env:PSModulePath"
+Import-Module Umbraco.Build -Force -DisableNameChecking
+
+
+
+$UmbracoCms = "Umbraco-Cms"
+if (!(Test-Path -Path $UmbracoCms)) {
     git clone https://github.com/umbraco/Umbraco-CMS.git
 }
-else
-{
+else {
     Set-Location Umbraco-cms
     git pull
     Set-Location ..
@@ -38,7 +44,7 @@ Write-Host "version " $umbracoVersion
 # read current version
 # $versionFile = ".\Umbraco-cms\build\UmbracoVersion.txt"
 #$umbracoVersion = Get-Content $versionFile | Select-Object -last 1
-Write-Host "building umbraco version " + $umbracoVersion
+Write-Host "updating nuspec " + $umbracoVersion
 
 # update version number in nuspec package
 $file = Get-Item ".\Our.Umbraco.Community.Tests\Package.nuspec"
@@ -49,46 +55,54 @@ $oldVersion = $versionNode.InnerText
 
 # if version changed
 $debug = $false
-if ($oldVersion -ne $umbracoVersion -Or $debug)
-{
+if ($oldVersion -ne $umbracoVersion -Or $debug) {
+    # compile the test
+    # $uenv = Get-UmbracoBuildEnv
+    Set-UmbracoVersion $umbracoVersion
+    Set-Location .\Umbraco-CMS\build
+    Build-Umbraco pre-tests Debug
+    Build-Umbraco compile-tests Debug
+    Set-Location ..\..
+
     # run bat file
     # Set-Location .\Umbraco-CMS\build
     # build-umbraco compile-tests
     # Set-Location ..\..
-    if ($LASTEXITCODE -ne 0)
-    {
-        Write-Error "Encountered error while running build.bat"
-        exit
-    }
+    # if ($LASTEXITCODE -ne 0)
+    # {
+    #     Write-Error "Encountered error while running build.bat"
+    #     exit
+    # }
 
-    $env:nugetPushNeeded="true"
-    # update version in nuspec
-    Write-Host "changing version " $versionNode.InnerText " to " $umbracoVersion
-    $versionNode.InnerText = $umbracoVersion
-    $doc.Save($file.FullName)
-    Write-Host "version " $versionNode.InnerText 
+    # $env:nugetPushNeeded="true"
+    # # update version in nuspec
+    # Write-Host "changing version " $versionNode.InnerText " to " $umbracoVersion
+    # $versionNode.InnerText = $umbracoVersion
+    # $doc.Save($file.FullName)
+    # Write-Host "version " $versionNode.InnerText 
 
-    # restore nuget in test directore
-    Write-Host "restore nuget packages"
-    $slnDirectory = ".\Umbraco-cms\src"
-    $projects = Get-ChildItem -path $slnDirectory -Recurse -Include *.csproj
-    foreach ($projFile in $projects)
-    {
-        Write-Host $projFile
-        NuGet.exe restore $projFile -solutiondirectory $slnDirectory
-    }
+    # # restore nuget in test directore
+    # Write-Host "restore nuget packages"
+    # $slnDirectory = ".\Umbraco-cms\src"
+    # $projects = Get-ChildItem -path $slnDirectory -Recurse -Include *.csproj
+    # foreach ($projFile in $projects)
+    # {
+    #     Write-Host $projFile
+    #     NuGet.exe restore $projFile -solutiondirectory $slnDirectory
+    # }
     
-    # # build the solution
-    Write-Host "start building the tests project"
-    $msbuild = "C:\Program` Files` (x86)\MSBuild\14.0\Bin\MSBuild.exe"
+    # # # build the solution
+    # Write-Host "start building the tests project"
+    # $msbuild = "C:\Program` Files` (x86)\MSBuild\14.0\Bin\MSBuild.exe"
 
     
-    $testProj=".\Umbraco-cms\src\Umbraco.Tests\Umbraco.Tests.csproj"
-    $sln="Umbraco-cms\src\Umbraco.sln"
-    # /t:Umbraco.Tests 
-    $build = "&'" + $msbuild + "' " +$sln +  " /p:Configuration=Debug /consoleloggerparameters:ErrorsOnly /langversion:6"
-    Invoke-Expression $build    
-    Write-Host "done building umbraco $($umbracoVersion)"
+    # # $testProj=".\Umbraco-cms\src\Umbraco.Tests\Umbraco.Tests.csproj"
+    # $sln="Umbraco-cms\src\Umbraco.sln"
+    # # /t:Umbraco.Tests 
+    # # $build = "&'" + $msbuild + "' " +$sln +  " /p:Configuration=Debug /consoleloggerparameters:ErrorsOnly /langversion:6"
+    # $build = "&'" + $msbuild + "' " +$sln +  " /p:Configuration=Debug /t:rebuild /consoleloggerparameters:ErrorsOnly"
+    # Invoke-Expression $build    
+    # Write-Host "done building umbraco $($umbracoVersion)"
 
 
     # build package
@@ -115,6 +129,6 @@ if ($oldVersion -ne $umbracoVersion -Or $debug)
     #git push 
     # Write-Host "deploy stuff should take over now"
 }
-else{
+else {
     Write-Host "no build needed"
 }
