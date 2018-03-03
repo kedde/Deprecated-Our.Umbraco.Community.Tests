@@ -20,10 +20,15 @@ git checkout master-v7
 # import umbraco module
 $currentPath = [System.IO.Path]::GetDirectoryName($pwd)
 Write-Host $currentPath
+Get-ChildItem
 
 $mpath =  $currentPath + "Umbraco-CMS\build\Modules\"
 $env:PSModulePath = "$mpath;$env:PSModulePath"
 Import-Module Umbraco.Build -Force -DisableNameChecking
+
+Set-Location $mpath
+Get-ChildItem
+
 
 Write-Host "importing umbraco environment"
 foreach ($num in 1) {
