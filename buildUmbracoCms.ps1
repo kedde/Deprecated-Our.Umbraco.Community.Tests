@@ -1,9 +1,14 @@
 # choco install nuget.commandline?
 
 # import umbraco module
-$mpath = [System.IO.Path]::GetDirectoryName($pwd) + "Umbraco-CMS\build\Modules\"
+$currentPath = [System.IO.Path]::GetDirectoryName($pwd)
+Write-Host $currentPath
+
+$mpath =  $currentPath + "Umbraco-CMS\build\Modules\"
 $env:PSModulePath = "$mpath;$env:PSModulePath"
 Import-Module Umbraco.Build -Force -DisableNameChecking
+
+Get-ChildItem
 
 
 
