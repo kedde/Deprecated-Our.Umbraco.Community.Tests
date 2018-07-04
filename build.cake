@@ -122,7 +122,7 @@ Task("NugetPack")
 Task("NugetPush")
     .IsDependentOn("NugetPack")
     .Does(()=>{
-        var nugetPackage = "./Our.Umbraco.Community.Tests/Our.Umbraco.Community.Tests." + UmbracoVersion + ".nupkg";
+        var nugetPackage = "./Our.Umbraco.Community.Tests/Our.Umbraco.Community.Tests." + UmbracoVersion + postfix + ".nupkg";
 
         // get api from environment
         var apiKey = EnvironmentVariable("OurUmbracoCommunityTestNugetApiKey");
