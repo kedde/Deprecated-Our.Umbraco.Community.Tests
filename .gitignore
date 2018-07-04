@@ -1,2 +1,3 @@
 Umbraco-CMS
 *.nupkg
+tools/*
