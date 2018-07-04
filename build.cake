@@ -8,10 +8,11 @@ var UmbracoVersion = "7.10.4";
 
 // .\build.ps1 -Target CloneUmbraco
 var target = Argument("target", "Build");
+var postfix = Argument("postfix", "");
+
 Task("CloneUmbraco")
     .Does(() =>
 {
-    // https://cakebuild.net/dsl/git/
     if (!DirectoryExists(UmbracoFolder))
     {
         Console.WriteLine("Cloning to Umbraco-folder ");
@@ -111,7 +112,7 @@ Task("NugetPack")
         var nuspecFile = "./Our.Umbraco.Community.Tests/Package.nuspec";
 
         NuGetPack(nuspecFile, new NuGetPackSettings{
-                Version = UmbracoVersion,
+                Version = UmbracoVersion + postfix,
                 OutputDirectory = "./Our.Umbraco.Community.Tests/"
             }
         );
