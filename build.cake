@@ -139,11 +139,12 @@ Task("NugetPush")
 
         var packageId = "Our.Umbraco.Community.Tests";
         if (IsNuGetPublished(packageId, UmbracoVersion)){
+            // TODO Duplicate
             var versionFile = "versions.txt";
             FileAppendLines(versionFile, new [] { UmbracoVersion });
             GitAddAll(".");
             GitCommit(".", "kedde", "kedde@kedde.dk", "add version " + UmbracoVersion);
-            GitPush(".");
+            GitPush(".","kedde", "kedde@kedde.dk");
             // throw new Exception("already published " + packageId + " version " + UmbracoVersion);
         } else{
             NuGetPush(nugetPackage, new NuGetPushSettings {
@@ -151,9 +152,12 @@ Task("NugetPush")
                 ApiKey = apiKey
             });
 
+            // TODO Duplicate
             var versionFile = "versions.txt";
             FileAppendLines(versionFile, new [] { UmbracoVersion });
+            GitAddAll(".");
             GitCommit(".", "kedde", "kedde@kedde.dk", "add version " + UmbracoVersion);
+            GitPush(".","kedde", "kedde@kedde.dk");
         }
 
         RunTarget("GitPush");
