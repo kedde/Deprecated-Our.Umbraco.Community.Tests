@@ -138,39 +138,35 @@ Task("NugetPush")
         }
 
         var packageId = "Our.Umbraco.Community.Tests";
-        if (IsNuGetPublished(packageId, UmbracoVersion)){
-            // TODO Duplicate
-            var versionFile = "versions.txt";
-            FileAppendLines(versionFile, new [] { UmbracoVersion });
-            GitAddAll(".");
-            GitCommit(".", "kedde", "kedde@kedde.dk", "add version " + UmbracoVersion);
-            GitPush(".","kedde", "kedde@kedde.dk");
+        var isNuGetPublished = IsNuGetPublished(packageId, UmbracoVersion);
+
+        if (isNuGetPublished){
+            Console.WriteLine("Nuget is already published " + UmbracoVersion + " " + isNuGetPublished);
+            RunTarget("AppendUmbracoVersionToVersionFile");
             // throw new Exception("already published " + packageId + " version " + UmbracoVersion);
         } else{
+            Console.WriteLine("Nuget is not published " + UmbracoVersion + " " + isNuGetPublished);
             NuGetPush(nugetPackage, new NuGetPushSettings {
                 Source = "https://nuget.org/",
                 ApiKey = apiKey
             });
-
-            // TODO Duplicate
-            var versionFile = "versions.txt";
-            FileAppendLines(versionFile, new [] { UmbracoVersion });
-            GitAddAll(".");
-            GitCommit(".", "kedde", "kedde@kedde.dk", "add version " + UmbracoVersion);
-            GitPush(".","kedde", "kedde@kedde.dk");
+            RunTarget("AppendUmbracoVersionToVersionFile");
         }
-
         RunTarget("GitPush");
 });
 
 
+Task("AppendUmbracoVersionToVersionFile")
+.Does(()=>{
+        var versionFile = "versions.txt";
+        FileAppendLines(versionFile, new [] { UmbracoVersion });
+});
 
 Task("GitPush")
     .Does(()=> {
-        Console.WriteLine("TODO git commit");
-        Console.WriteLine("TODO git push");
-
-
+        GitAddAll(".");
+        GitCommit(".", "kedde", "kedde@kedde.dk", "add version " + UmbracoVersion);
+        GitPush(".","kedde", "kedde@kedde.dk"); // TODO FIX
 });
 
 Task("SaveVersionToFile")
