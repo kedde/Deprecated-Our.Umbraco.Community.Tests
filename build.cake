@@ -1,4 +1,6 @@
 #addin nuget:?package=Cake.Git
+#addin "nuget:?package=NuGet.Core"
+#addin "Cake.ExtendedNuGet"
 #addin "Cake.FileHelpers"
 
 var UmbracoFolder = "Umbraco-CMS";
@@ -135,13 +137,36 @@ Task("NugetPush")
             throw new Exception("The NUGET_APIKEY environment variable is not defined.");
         }
 
-        NuGetPush(nugetPackage, new NuGetPushSettings {
-            Source = "https://nuget.org/",
-            ApiKey = apiKey
-        });
+        var packageId = "Our.Umbraco.Community.Tests";
+        if (IsNuGetPublished(packageId, UmbracoVersion)){
+            var versionFile = "versions.txt";
+            FileAppendLines(versionFile, new [] { UmbracoVersion });
+            GitAddAll(".");
+            GitCommit(".", "kedde", "kedde@kedde.dk", "add version " + UmbracoVersion);
+            GitPush(".");
+            // throw new Exception("already published " + packageId + " version " + UmbracoVersion);
+        } else{
+            NuGetPush(nugetPackage, new NuGetPushSettings {
+                Source = "https://nuget.org/",
+                ApiKey = apiKey
+            });
 
-        var versionFile = "versions.txt";
-        FileAppendLines(versionFile, new [] { UmbracoVersion });
+            var versionFile = "versions.txt";
+            FileAppendLines(versionFile, new [] { UmbracoVersion });
+            GitCommit(".", "kedde", "kedde@kedde.dk", "add version " + UmbracoVersion);
+        }
+
+        RunTarget("GitPush");
+});
+
+
+
+Task("GitPush")
+    .Does(()=> {
+        Console.WriteLine("TODO git commit");
+        Console.WriteLine("TODO git push");
+
+
 });
 
 Task("SaveVersionToFile")

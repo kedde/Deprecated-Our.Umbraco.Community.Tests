@@ -1,3 +1,4 @@
 Umbraco-CMS
 *.nupkg
 tools/*
+.vscode/*
