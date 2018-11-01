@@ -171,7 +171,7 @@ Task("GitPush")
     .Does(()=> {
         GitAddAll(".");
         GitCommit(".", "kedde", "kedde@kedde.dk", "add version " + UmbracoVersion);
-        GitPush("."); // TODO FIX
+        var exitPush = StartProcess("git", new ProcessSettings{ Arguments = "push", WorkingDirectory = UmbracoFolder });
 });
 
 Task("SaveVersionToFile")
