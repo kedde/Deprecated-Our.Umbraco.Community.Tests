@@ -1,7 +1,8 @@
 #addin nuget:?package=Cake.Git
 #addin "nuget:?package=NuGet.Core"
-#addin "Cake.ExtendedNuGet"
+#addin "nuget:?package=NuGet.Common"
 #addin "Cake.FileHelpers"
+using NuGet;
 
 var UmbracoFolder = "Umbraco-CMS";
 var UmbracoSolution = UmbracoFolder + "/src/umbraco.sln";
@@ -138,7 +139,11 @@ Task("NugetPush")
         }
 
         var packageId = "Our.Umbraco.Community.Tests";
-        var isNuGetPublished = IsNuGetPublished(packageId, UmbracoVersion);
+        var repo = PackageRepositoryFactory.Default.CreateRepository ("https://nuget.org/api/v2");
+        var packages = repo.FindPackagesById (packageId);
+        var version = SemanticVersion.Parse (UmbracoVersion);
+        var isNuGetPublished = packages.Any (p => p.Version == version);
+
 
         if (isNuGetPublished){
             Console.WriteLine("Nuget is already published " + UmbracoVersion + " " + isNuGetPublished);
@@ -166,7 +171,7 @@ Task("GitPush")
     .Does(()=> {
         GitAddAll(".");
         GitCommit(".", "kedde", "kedde@kedde.dk", "add version " + UmbracoVersion);
-        GitPush(".","kedde", "kedde@kedde.dk"); // TODO FIX
+        GitPush("."); // TODO FIX
 });
 
 Task("SaveVersionToFile")
