@@ -109,6 +109,9 @@ Task("CheckoutTag")
             if (int.Parse(major) >= 7 && int.Parse(minor) >= 10){
                 Console.WriteLine("version: " + version + " major: " + major + " minor " + minor);
             }
+            if (int.Parse(major) == 8){
+                Console.WriteLine("version: " + version + " major: " + major + " minor " + minor);
+            }
         }
     }
     var exitCodeWithArgument = StartProcess("git", new ProcessSettings{ Arguments = "checkout release-" + UmbracoVersion, WorkingDirectory = UmbracoFolder });
@@ -122,6 +125,7 @@ Task("BuildTest")
         Console.WriteLine("NugetDir: " + nugetDir.FullPath);
          MSBuild(UmbracoTestProj, new MSBuildSettings()
          .WithProperty("NugetPackages", nugetDir.FullPath)
+         .WithProperty("LangVersion", "7.3")
          );
 });
 
