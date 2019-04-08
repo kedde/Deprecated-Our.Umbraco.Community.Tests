@@ -10,6 +10,7 @@ var UmbracoTestProj = UmbracoFolder + "/src/Umbraco.Tests/Umbraco.Tests.csproj";
 var UmbracoVersion = "7.10.4"; 
 
 // .\build.ps1 -Target CloneUmbraco
+// .\build.ps1 -Target CheckRemoteTagsAndBuildIfNeeded
 var target = Argument("target", "Build");
 var postfix = Argument("postfix", "");
 
@@ -54,7 +55,8 @@ Task("CheckRemoteTagsAndBuildIfNeeded")
             var secondDot = version.IndexOf(".", firstDot + 1);
             var major = version.Substring(0, firstDot);
             var minor = version.Substring(firstDot + 1, secondDot - firstDot -1);
-            if (int.Parse(major) >= 7 && int.Parse(minor) >= 10){
+            // umbraco 7
+            if (int.Parse(major) == 7 && int.Parse(minor) >= 10){
                 Console.WriteLine("version: " + version + " major: " + major + " minor " + minor);
 
                 var versionFile = "versions.txt";
@@ -69,7 +71,21 @@ Task("CheckRemoteTagsAndBuildIfNeeded")
                 }
             }
 
-           
+            // umbraco 8
+            if (int.Parse(major) == 8){
+                Console.WriteLine("version: " + version + " major: " + major + " minor " + minor);
+
+                var versionFile = "versions.txt";
+                var matches = FindRegexMatchesInFile(versionFile, version, System.Text.RegularExpressions.RegexOptions.None);
+                if (matches.Count == 0){
+                    Console.WriteLine("setting version to " + version);
+                    UmbracoVersion = version;
+                    RunTarget("NugetPush");
+                }
+                else{
+                    Console.WriteLine("Found #" + matches.Count + " in file build not needed");
+                }
+            }
         }
      }
     
@@ -172,12 +188,6 @@ Task("GitPush")
         GitAddAll(".");
         GitCommit(".", "kedde", "kedde@kedde.dk", "add version " + UmbracoVersion);
         var exitPush = StartProcess("git", new ProcessSettings{ Arguments = "push", WorkingDirectory = UmbracoFolder });
-});
-
-Task("SaveVersionToFile")
-.Does(()=>{
-    var versionFile = "versions.txt";
-    FileAppendLines(versionFile, new [] { UmbracoVersion });
 });
 
 Task("FindVersion")
