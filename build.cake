@@ -189,9 +189,10 @@ Task("AppendUmbracoVersionToVersionFile")
 
 Task("GitPush")
     .Does(()=> {
+        Console.WriteLine("");
         GitAddAll(".");
         GitCommit(".", "kedde", "kedde@kedde.dk", "add version " + UmbracoVersion);
-        var exitPush = StartProcess("git", new ProcessSettings{ Arguments = "push", WorkingDirectory = UmbracoFolder });
+        var exitPush = StartProcess("git", new ProcessSettings{ Arguments = "push", WorkingDirectory = "/" });
 });
 
 Task("FindVersion")
