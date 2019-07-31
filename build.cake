@@ -198,7 +198,7 @@ Task("GitPush")
         Console.WriteLine("git commit");
         GitCommit(".", "kedde", "kedde@kedde.dk", "add version " + UmbracoVersion);
         Console.WriteLine("git push");
-        var exitPush = StartProcess("git", new ProcessSettings{ Arguments = "push", WorkingDirectory = "/" });
+        var exitPush = StartProcess("git", new ProcessSettings{ Arguments = "push" });
 });
 
 Task("FindVersion")
