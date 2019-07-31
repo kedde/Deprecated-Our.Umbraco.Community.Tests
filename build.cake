@@ -123,9 +123,13 @@ Task("BuildTest")
     .Does(()=> {
         var nugetDir = MakeAbsolute(Directory(UmbracoFolder + "/src/packages/"));
         Console.WriteLine("NugetDir: " + nugetDir.FullPath);
-         MSBuild(UmbracoTestProj, new MSBuildSettings()
+         MSBuild(UmbracoTestProj, new MSBuildSettings(){
+             ToolVersion = MSBuildToolVersion.VS2019
+         }
          .WithProperty("NugetPackages", nugetDir.FullPath)
-         .WithProperty("LangVersion", "7.3")
+        //  .WithProperty("LangVersion", "7.3") // interfaces does not accept this
+        //  .WithProperty("LangVersion", "6")
+        // .WithProperty("LangVersion", "Default")
          );
 });
 
@@ -189,9 +193,11 @@ Task("AppendUmbracoVersionToVersionFile")
 
 Task("GitPush")
     .Does(()=> {
-        Console.WriteLine("");
+        Console.WriteLine("Git add all");
         GitAddAll(".");
+        Console.WriteLine("git commit");
         GitCommit(".", "kedde", "kedde@kedde.dk", "add version " + UmbracoVersion);
+        Console.WriteLine("git push");
         var exitPush = StartProcess("git", new ProcessSettings{ Arguments = "push", WorkingDirectory = "/" });
 });
 
