@@ -49,7 +49,7 @@ Task("CheckRemoteTagsAndBuildIfNeeded")
          var tagSplit = r.Split('\t');
          var commitHash = tagSplit[0];
          var tagName = tagSplit[1];
-         if (tagName.Contains("release-"))
+         if (tagName.Contains("release-") && !tagName.EndsWith("^{}"))
          {
             var version = tagName.Substring(tagName.IndexOf("-") + 1 );
             var firstDot = version.IndexOf(".");
