@@ -11,7 +11,8 @@ var UmbracoVersion = "7.10.4";
 
 // .\build.ps1 -Target CloneUmbraco
 // .\build.ps1 -Target CheckRemoteTagsAndBuildIfNeeded
-var target = Argument("target", "Build");
+// .\build.ps1 -Target CheckRemoteTagsAndBuildIfNeeded (default)
+var target = Argument("target", "CheckRemoteTagsAndBuildIfNeeded");
 var postfix = Argument("postfix", "");
 
 Task("CloneUmbraco")
