@@ -125,7 +125,8 @@ Task("BuildTest")
         var nugetDir = MakeAbsolute(Directory(UmbracoFolder + "/src/packages/"));
         Console.WriteLine("NugetDir: " + nugetDir.FullPath);
          MSBuild(UmbracoTestProj, new MSBuildSettings(){
-             ToolVersion = MSBuildToolVersion.VS2019
+             ToolVersion = MSBuildToolVersion.VS2019,
+             Verbosity = Verbosity.Quiet
          }
          .WithProperty("NugetPackages", nugetDir.FullPath)
         //  .WithProperty("LangVersion", "7.3") // interfaces does not accept this
