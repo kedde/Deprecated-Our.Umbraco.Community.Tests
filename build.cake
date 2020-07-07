@@ -26,7 +26,7 @@ Task("CloneUmbraco")
     else
     {
         var exitCodeHardReset = StartProcess("git", new ProcessSettings{ Arguments = "reset --hard", WorkingDirectory = UmbracoFolder });
-        var exitCodeCheckoutMasterWithArgument = StartProcess("git", new ProcessSettings{ Arguments = " checkout master", WorkingDirectory = UmbracoFolder });
+        var exitCodeCheckoutMasterWithArgument = StartProcess("git", new ProcessSettings{ Arguments = " checkout main", WorkingDirectory = UmbracoFolder });
         GitPull(UmbracoFolder, "kedde", "kedde@kedde.dk");
     }
 
