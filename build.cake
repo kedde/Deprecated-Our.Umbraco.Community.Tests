@@ -129,6 +129,7 @@ Task("BuildTest")
              Verbosity = Verbosity.Quiet
          }
          .WithProperty("NugetPackages", nugetDir.FullPath)
+        .WithProperty("LangVersion", "8.0") // interfaces does not accept this
         //  .WithProperty("LangVersion", "7.3") // interfaces does not accept this
         //  .WithProperty("LangVersion", "6")
         // .WithProperty("LangVersion", "Default")
