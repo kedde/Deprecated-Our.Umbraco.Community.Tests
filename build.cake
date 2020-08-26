@@ -51,41 +51,45 @@ Task("CheckRemoteTagsAndBuildIfNeeded")
          var tagName = tagSplit[1];
          if (tagName.Contains("release-") && !tagName.EndsWith("^{}"))
          {
-            var version = tagName.Substring(tagName.IndexOf("-") + 1 );
-            var firstDot = version.IndexOf(".");
-            var secondDot = version.IndexOf(".", firstDot + 1);
-            var major = version.Substring(0, firstDot);
-            var minor = version.Substring(firstDot + 1, secondDot - firstDot -1);
-            // umbraco 7
-            if (int.Parse(major) == 7 && int.Parse(minor) >= 10){
-                Console.WriteLine("version: " + version + " major: " + major + " minor " + minor);
+            Console.WriteLine("tagname: " + tagName);
+            if (!tagName.Contains("release-netcore")){
+                var version = tagName.Substring(tagName.IndexOf("-") + 1 );
+                var firstDot = version.IndexOf(".");
+                var secondDot = version.IndexOf(".", firstDot + 1);
+                var major = version.Substring(0, firstDot);
+                var minor = version.Substring(firstDot + 1, secondDot - firstDot -1);
+                // umbraco 7
+                if (int.Parse(major) == 7 && int.Parse(minor) >= 10){
+                    Console.WriteLine("version: " + version + " major: " + major + " minor " + minor);
 
-                var versionFile = "versions.txt";
-                var matches = FindRegexMatchesInFile(versionFile, version, System.Text.RegularExpressions.RegexOptions.None);
-                if (matches.Count == 0){
-                    Console.WriteLine("setting version to " + version);
-                    UmbracoVersion = version;
-                    RunTarget("NugetPush");
+                    var versionFile = "versions.txt";
+                    var matches = FindRegexMatchesInFile(versionFile, version, System.Text.RegularExpressions.RegexOptions.None);
+                    if (matches.Count == 0){
+                        Console.WriteLine("setting version to " + version);
+                        UmbracoVersion = version;
+                        RunTarget("NugetPush");
+                    }
+                    else{
+                        Console.WriteLine("Found #" + matches.Count + " in file build not needed");
+                    }
                 }
-                else{
-                    Console.WriteLine("Found #" + matches.Count + " in file build not needed");
-                }
-            }
 
-            // umbraco 8
-            if (int.Parse(major) == 8){
-                Console.WriteLine("version: " + version + " major: " + major + " minor " + minor);
+                // umbraco 8
+                if (int.Parse(major) == 8){
+                    Console.WriteLine("version: " + version + " major: " + major + " minor " + minor);
 
-                var versionFile = "versions.txt";
-                var matches = FindRegexMatchesInFile(versionFile, version, System.Text.RegularExpressions.RegexOptions.None);
-                if (matches.Count == 0){
-                    Console.WriteLine("setting version to " + version);
-                    UmbracoVersion = version;
-                    RunTarget("NugetPush");
+                    var versionFile = "versions.txt";
+                    var matches = FindRegexMatchesInFile(versionFile, version, System.Text.RegularExpressions.RegexOptions.None);
+                    if (matches.Count == 0){
+                        Console.WriteLine("setting version to " + version);
+                        UmbracoVersion = version;
+                        RunTarget("NugetPush");
+                    }
+                    else{
+                        Console.WriteLine("Found #" + matches.Count + " in file build not needed");
+                    }
                 }
-                else{
-                    Console.WriteLine("Found #" + matches.Count + " in file build not needed");
-                }
+
             }
         }
      }
@@ -129,7 +133,7 @@ Task("BuildTest")
              Verbosity = Verbosity.Quiet
          }
          .WithProperty("NugetPackages", nugetDir.FullPath)
-        // .WithProperty("LangVersion", "8.0") // interfaces does not accept this
+        //  .WithProperty("LangVersion", "8.0") // interfaces does not accept this
         //  .WithProperty("LangVersion", "7.3") // interfaces does not accept this
         //  .WithProperty("LangVersion", "6")
         // .WithProperty("LangVersion", "Default")
