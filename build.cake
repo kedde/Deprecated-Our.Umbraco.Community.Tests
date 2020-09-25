@@ -104,8 +104,9 @@ Task("CheckoutTag")
     foreach (var tag in gitTags)
     {
         var tagName = tag.ToString();
-        if (tagName.Contains("release-"))
+        if (tagName.Contains("release-") && !tagName.Contains("release-netcore-"))
         {
+            Console.WriteLine("tagName: " + tagName);
             var version = tagName.Substring(tagName.IndexOf("-") + 1 );
             var firstDot = version.IndexOf(".");
             var secondDot = version.IndexOf(".", firstDot + 1);
@@ -133,7 +134,7 @@ Task("BuildTest")
              Verbosity = Verbosity.Quiet
          }
          .WithProperty("NugetPackages", nugetDir.FullPath)
-        //  .WithProperty("LangVersion", "8.0") // interfaces does not accept this
+         .WithProperty("LangVersion", "8.0") // interfaces does not accept this
         //  .WithProperty("LangVersion", "7.3") // interfaces does not accept this
         //  .WithProperty("LangVersion", "6")
         // .WithProperty("LangVersion", "Default")
