@@ -151,9 +151,12 @@ Task("NugetPack")
     .IsDependentOn("BuildTest")
     .Does(()=>{
         var nuspecFile = "./Our.Umbraco.Community.Tests/Package.nuspec";
+        Console.WriteLine("Nuget pack UmbracoVersion: " + UmbracoVersion + " postfix: " + postfix);
+        var version = SemanticVersion.Parse (UmbracoVersion);
+        Console.WriteLine("Nuget pack version: " + version + " postfix: " + postfix);
 
         NuGetPack(nuspecFile, new NuGetPackSettings{
-                Version = UmbracoVersion + postfix,
+                Version = version + postfix,
                 OutputDirectory = "./Our.Umbraco.Community.Tests/"
             }
         );
@@ -164,6 +167,10 @@ Task("NugetPush")
     .IsDependentOn("NugetPack")
     .Does(()=>{
         var nugetPackage = "./Our.Umbraco.Community.Tests/Our.Umbraco.Community.Tests." + UmbracoVersion + postfix + ".nupkg";
+        if (UmbracoVersion.Count(f => f == '.') == 1){
+            // e.g. version 8.8 should be 8.8.0
+            nugetPackage = "./Our.Umbraco.Community.Tests/Our.Umbraco.Community.Tests." + UmbracoVersion + ".0" + postfix + ".nupkg";
+        }
 
         // get api from environment
         var apiKey = EnvironmentVariable("OurUmbracoCommunityTestNugetApiKey");
