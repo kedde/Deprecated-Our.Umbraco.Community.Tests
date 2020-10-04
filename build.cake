@@ -55,9 +55,12 @@ Task("CheckRemoteTagsAndBuildIfNeeded")
             if (!tagName.Contains("release-netcore")){
                 var version = tagName.Substring(tagName.IndexOf("-") + 1 );
                 var firstDot = version.IndexOf(".");
-                var secondDot = version.IndexOf(".", firstDot + 1);
                 var major = version.Substring(0, firstDot);
-                var minor = version.Substring(firstDot + 1, secondDot - firstDot -1);
+                var secondDot = version.IndexOf(".", firstDot + 1);
+                var minor = "0";
+                if (secondDot > 0){
+                    minor = version.Substring(firstDot + 1, secondDot - firstDot -1);
+                }
                 // umbraco 7
                 if (int.Parse(major) == 7 && int.Parse(minor) >= 10){
                     Console.WriteLine("version: " + version + " major: " + major + " minor " + minor);
@@ -110,8 +113,11 @@ Task("CheckoutTag")
             var version = tagName.Substring(tagName.IndexOf("-") + 1 );
             var firstDot = version.IndexOf(".");
             var secondDot = version.IndexOf(".", firstDot + 1);
+            var minor = "0";
+            if (secondDot > 0){
+                minor = version.Substring(firstDot + 1, secondDot - firstDot -1);
+            }
             var major = version.Substring(0, firstDot);
-            var minor = version.Substring(firstDot + 1, secondDot - firstDot -1);
             if (int.Parse(major) >= 7 && int.Parse(minor) >= 10){
                 Console.WriteLine("version: " + version + " major: " + major + " minor " + minor);
             }
