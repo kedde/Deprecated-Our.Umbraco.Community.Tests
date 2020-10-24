@@ -130,7 +130,7 @@ Task("CheckoutTag")
 });
 
 Task("BuildTest")
-    .IsDependentOn("CheckoutTag")
+    // .IsDependentOn("CheckoutTag")
     .IsDependentOn("NugetRestoreUmbraco")
     .Does(()=> {
         var nugetDir = MakeAbsolute(Directory(UmbracoFolder + "/src/packages/"));
