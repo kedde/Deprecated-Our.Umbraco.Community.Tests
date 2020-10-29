@@ -148,7 +148,7 @@ Task("BuildTest")
 });
 
 Task("NugetPack")
-    // .IsDependentOn("BuildTest")
+    .IsDependentOn("BuildTest")
     .Does(()=>{
         var nuspecFile = "./Our.Umbraco.Community.Tests/Package.nuspec";
         Console.WriteLine("Nuget pack UmbracoVersion: " + UmbracoVersion + " postfix: " + postfix);
