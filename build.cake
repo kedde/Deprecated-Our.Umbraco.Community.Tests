@@ -99,6 +99,15 @@ Task("CheckRemoteTagsAndBuildIfNeeded")
     
 });
 
+Task("HardClean")
+    .Does(() => 
+    {
+        var directoriesToClean = GetDirectories("./Umbraco-CMS/src/**/bin/");
+        CleanDirectories(directoriesToClean);
+        directoriesToClean = GetDirectories("./Umbraco-CMS/src/**/obj/");
+        CleanDirectories(directoriesToClean);
+    });
+
 Task("CheckoutTag")
     .IsDependentOn("CloneUmbraco")
     .Does(()=>{
