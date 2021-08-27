@@ -1,4 +1,5 @@
-#addin nuget:?package=Cake.Git
+// #addin nuget:?package=Cake.Git
+#addin nuget:?package=Cake.Git&version=1.0.1
 #addin "nuget:?package=NuGet.Core"
 #addin "nuget:?package=NuGet.Common"
 #addin "Cake.FileHelpers"
