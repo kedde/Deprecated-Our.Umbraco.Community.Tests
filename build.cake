@@ -144,7 +144,7 @@ Task("BuildTest")
         var nugetDir = MakeAbsolute(Directory(UmbracoFolder + "/src/packages/"));
         Console.WriteLine("NugetDir: " + nugetDir.FullPath);
          MSBuild(UmbracoTestProj, new MSBuildSettings(){
-             ToolVersion = MSBuildToolVersion.VS2019,
+             ToolVersion = MSBuildToolVersion.VS2022,
              Verbosity = Verbosity.Quiet
          }
          .WithProperty("NugetPackages", nugetDir.FullPath)
