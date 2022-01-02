@@ -1,9 +1,7 @@
-// #addin nuget:?package=Cake.Git
-#addin nuget:?package=Cake.Git&version=1.0.1
-#addin "nuget:?package=NuGet.Core"
-#addin "nuget:?package=NuGet.Common"
-#addin "Cake.FileHelpers"
-using NuGet;
+#addin nuget:?package=Cake.Git&version=2.0.0
+#addin nuget:?package=semver&version=2.0.4
+#addin nuget:?package=Cake.FileHelpers&version=5.0.0
+#addin nuget:?package=Cake.ExtendedNuGet&version=5.0.0
 
 var UmbracoFolder = "Umbraco-CMS";
 var UmbracoSolution = UmbracoFolder + "/src/umbraco.sln";
@@ -162,7 +160,7 @@ Task("NugetPack")
     .Does(()=>{
         var nuspecFile = "./Our.Umbraco.Community.Tests/Package.nuspec";
         Console.WriteLine("Nuget pack UmbracoVersion: " + UmbracoVersion + " postfix: " + postfix);
-        var version = SemanticVersion.Parse (UmbracoVersion);
+        var convertedVersion = SemVersion.TryParse (UmbracoVersion, out var version);
         Console.WriteLine("Nuget pack version: " + version + " postfix: " + postfix);
 
         NuGetPack(nuspecFile, new NuGetPackSettings{
@@ -194,12 +192,8 @@ Task("NugetPush")
         }
 
         var packageId = "Our.Umbraco.Community.Tests";
-        var repo = PackageRepositoryFactory.Default.CreateRepository ("https://nuget.org/api/v2");
-        var packages = repo.FindPackagesById (packageId);
-        var version = SemanticVersion.Parse (UmbracoVersion);
-        var isNuGetPublished = packages.Any (p => p.Version == version);
 
-
+        var isNuGetPublished = IsNuGetPublished(packageId, UmbracoVersion, "https://api.nuget.org/v3/index.json" );
         if (isNuGetPublished){
             Console.WriteLine("Nuget is already published " + UmbracoVersion + " " + isNuGetPublished);
             RunTarget("AppendUmbracoVersionToVersionFile");
@@ -273,3 +267,11 @@ Task("CloneAndBuildUmbraco")
 
 
 RunTarget(target);
+
+
+
+
+
+
+
+
